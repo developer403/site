@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tap Apps — coisas simples, mobile, divertido</title>
+  <meta name="description" content="Tap Apps — apps e soluções simples, mobile-first, rápidos e diretos." />
+  <meta property="og:title" content="Tap Apps" />
+  <meta property="og:description" content="Apps simples e divertidos com foco mobile." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <!-- Favicon SVG inline as data URI -->
+  <link rel="icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="%23000"/><circle cx="12" cy="8" r="3" fill="%2300e5ff"/><rect x="6" y="13" width="12" height="2" rx="1" fill="%23fff" opacity=".9"/></svg>' />
+  <style>
+    :root{
+      --bg:#000;
+      --fg:#e9eef6;
+      --muted:#9aa6b2;
+      --accent:#00e5ff; /* neon ciano */
+      --card-bg: rgba(255,255,255,0.03);
+      --radius:14px;
+      --gap:18px;
+      --transition:200ms ease;
+      --shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+    /* Mobile-first base */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg);
+      color:var(--fg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+      -webkit-tap-highlight-color: transparent;
+      padding-top:64px; /* space for fixed topbar */
+    }
+    a{color:inherit;text-decoration:none}
+    /* Top bar */
+    .topbar{
+      position:fixed;inset:0 auto auto 0;height:64px;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:40;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      backdrop-filter: blur(6px);
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .logo{font-weight:700;letter-spacing:0.6px;font-size:1.05rem;display:flex;align-items:center;gap:10px}
+    .logo .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+    .top-actions{display:flex;gap:10px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;border:1px solid.transparent;transition:all var(--transition);font-size:0.95rem}
+    .btn:focus{outline:3px solid rgba(0,229,255,0.12);outline-offset:3px}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#60ffff);color:#00101a;box-shadow:0 6px 18px rgba(0,229,255,0.08)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--fg)}
+    .container{padding:22px;max-width:960px;margin:0 auto}
+    /* Hero */
+    .hero{padding:22px 0 36px;display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+    .hero h1{font-size:2.4rem;margin:0;line-height:1;letter-spacing:-0.02em}
+    .hero p{margin:0;color:var(--muted)}
+    .hero .actions{display:flex;gap:10px;margin-top:12px}
+    /* ripple visual behind title */
+    .ripple-wrap{position:relative;padding:18px 0}
+    .ripple{position:absolute;left:0;top:0;transform:translate(-10%, -30%);width:220px;height:220px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(0,229,255,0.12), rgba(0,229,255,0.03) 40%, transparent 60%);filter:blur(30px);opacity:0.9;mix-blend-mode:screen;pointer-events:none;animation:drift 6s linear infinite}
+    @keyframes drift{0%{transform:translate(-10%,-30%) scale(.98)}50%{transform:translate(-8%,-28%) scale(1.05)}100%{transform:translate(-10%,-30%) scale(.98)}}
+    /* Sobre */
+    .about{padding:20px 0 36px}
+    .card-row{display:flex;gap:12px;margin-top:16px}
+    .feature{flex:1;background:var(--card-bg);padding:14px;border-radius:12px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center;border:1px solid rgba(255,255,255,0.02)}
+    .feature svg{width:28px;height:28px;flex-shrink:0;opacity:0.95}
+    .feature h4{margin:0;font-size:1rem}
+    .feature p{margin:0;color:var(--muted);font-size:0.92rem}
+    /* Contact */
+    .contact{padding:20px 0 40px}
+    .contact-grid{display:flex;flex-direction:column;gap:12px}
+    .contact-card{display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow);gap:12px}
+    .contact-left{display:flex;gap:12px;align-items:center}
+    .contact-card button{background:transparent;border:none;color:var(--accent);font-weight:700;padding:8px 10px;border-radius:10px;cursor:pointer}
+    .contact-card button:focus{outline:3px solid rgba(0,229,255,0.1)}
+    .small{font-size:0.9rem;color:var(--muted)}
+    .addr{white-space:pre-line}
+    /* Footer */
+    footer{padding:26px 0;border-top:1px solid rgba(255,255,255,0.02);color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+    footer nav a{margin-left:12px;color:var(--muted)}
+    /* Interactions */
+    .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+    .feature:active,.contact-card:active{transform:scale(.998)}
+    /* Responsive */
+    @media(min-width:720px){
+      .hero h1{font-size:3.2rem}
+      .card-row{flex-direction:row}
+      .contact-grid{flex-direction:row}
+      .contact-card{flex:1}
+    }
+    @media(min-width:1024px){
+      .container{max-width:1100px}
+    }
+    /* focus visible for keyboard users */
+    :focus{outline-offset:3px}
+  </style>
+</head>
+<body>
+  <header class="topbar" role="banner">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between">
+      <div class="logo" aria-label="Tap Apps logo"><span class="dot" aria-hidden="true"></span>Tap Apps</div>
+      <div class="top-actions">
+        <a class="btn btn-ghost" href="#contact">Contato</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero" aria-labelledby="hero-title">
+      <div class="ripple-wrap">
+        <div class="ripple" aria-hidden="true"></div>
+        <h1 id="hero-title">Tap Apps</h1>
+      </div>
+      <p>coisas simples, ssp, mobile, divertido</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#contact" id="btn-contact">Fale comigo</a>
+        <a class="btn btn-ghost" href="#contact" id="btn-address">Ver endereço</a>
+      </div>
+    </section>
+
+    <section class="container about" id="sobre" aria-labelledby="sobre-title">
+      <h2 id="sobre-title">Sobre</h2>
+      <p style="color:var(--muted);max-width:58ch">Criamos apps e soluções simples com foco mobile: rápidos, diretos e com um toque divertido — nada de excessos, só o essencial bem feito.</p>
+      <div class="card-row" style="margin-top:14px;flex-direction:column">
+        <article class="feature" role="article" aria-labelledby="f1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v6"></path><path d="M5 11h14"></path><path d="M7 22h10"></path></svg>
+          <div>
+            <h4 id="f1">Simplicidade</h4>
+            <p>Interfaces claras e foco no que importa.</p>
+          </div>
+        </article>
+        <article class="feature" role="article" aria-labelledby="f2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M16 2v4"></path></svg>
+          <div>
+            <h4 id="f2">Mobile first</h4>
+            <p>Projetado primeiro para toque e performance.</p>
+          </div>
+        </article>
+        <article class="feature" role="article" aria-labelledby="f3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.9 4.3L18 8l-4 2.6L13 16l-1-5.4L8 8l4.1-1.7L12 2z"></path></svg>
+          <div>
+            <h4 id="f3">Divertido</h4>
+            <p>Pequenos detalhes que tornam a experiência leve.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="container contact" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contato</h2>
+      <div class="contact-grid">
+        <a class="contact-card" href="mailto:developer@tapapps24.com" aria-label="Enviar email para developer at tapapps24 dot com">
+          <div class="contact-left">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8l9 6 9-6"/></svg>
+            <div>
+              <div style="font-weight:700">developer@tapapps24.com</div>
+              <div class="small">Clique para enviar email</div>
+            </div>
+          </div>
+          <div>
+            <button type="button" class="copy-email" aria-label="Copiar email">Copiar email</button>
+          </div>
+        </a>
+
+        <a class="contact-card" href="tel:+5531983745665" aria-label="Ligar para +55 31 98374 5665">
+          <div class="contact-left">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.08 4.18 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.72c.12.9.35 1.76.68 2.57a2 2 0 0 1-.45 2.11L9.91 9.91a12 12 0 0 0 5 5l1.51-1.51a2 2 0 0 1 2.11-.45c.81.33 1.67.56 2.57.68A2 2 0 0 1 22 16.92z"/></svg>
+            <div>
+              <div style="font-weight:700">+55 (31) 98374-5665</div>
+              <div class="small">Clique para ligar</div>
+            </div>
+          </div>
+          <div></div>
+        </a>
+
+        <div class="contact-card" role="region" aria-label="Endereço completo">
+          <div class="contact-left">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 1 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <div>
+              <div style="font-weight:700">Rua Francisco Augusto Rocha, 106</div>
+              <div class="small addr">Belo Horizonte, Minas Gerais</div>
+            </div>
+          </div>
+          <div>
+            <button type="button" class="copy-addr" aria-label="Copiar endereço">Copiar endereço</button>
+          </div>
+        </div>
+      </div>
+      <div aria-live="polite" id="toast" style="position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:var(--card-bg);padding:10px 14px;border-radius:10px;color:var(--fg);display:none;border:1px solid rgba(255,255,255,0.04)"></div>
+    </section>
+  </main>
+
+  <footer class="container" role="contentinfo">
+    <div>© Tap Apps</div>
+    <nav aria-label="Links rápidos">
+      <a href="#">Início</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contact">Contato</a>
+    </nav>
+  </footer>
+
+  <script>
+    // Smooth scroll for anchors
+    document.addEventListener('click', function(e){
+      const a = e.target.closest('a');
+      if(!a) return;
+      const href = a.getAttribute('href');
+      if(href && href.startsWith('#')){
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    });
+
+    // Copy to clipboard helpers
+    function showToast(msg){
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.style.display='block'; t.style.opacity=1;
+      setTimeout(()=>{ t.style.transition='opacity 300ms'; t.style.opacity=0; setTimeout(()=>t.style.display='none',300)},1800);
+    }
+
+    document.querySelectorAll('.copy-email').forEach(btn=>{
+      btn.addEventListener('click', async (ev)=>{
+        ev.preventDefault();
+        try{ await navigator.clipboard.writeText('developer@tapapps24.com'); showToast('Email copiado'); }
+        catch{ showToast('Não foi possível copiar'); }
+      });
+    });
+    document.querySelectorAll('.copy-addr').forEach(btn=>{
+      btn.addEventListener('click', async (ev)=>{
+        ev.preventDefault();
+        const text = 'Rua Francisco Augusto Rocha, 106\nBelo Horizonte, Minas Gerais';
+        try{ await navigator.clipboard.writeText(text); showToast('Endereço copiado'); }
+        catch{ showToast('Não foi possível copiar'); }
+      });
+    });
+
+    // Small tap ripple for primary buttons
+    function rippleEffect(e){
+      const btn = e.currentTarget;
+      const circle = document.createElement('span');
+      const d = Math.max(btn.clientWidth, btn.clientHeight);
+      circle.style.width = circle.style.height = d + 'px';
+      circle.style.position = 'absolute';
+      circle.style.borderRadius = '50%';
+      circle.style.left = (e.offsetX - d/2) + 'px';
+      circle.style.top = (e.offsetY - d/2) + 'px';
+      circle.style.background = 'rgba(255,255,255,0.12)';
+      circle.style.transform = 'scale(0)';
+      circle.style.transition = 'transform 280ms ease, opacity 280ms ease';
+      circle.style.pointerEvents = 'none';
+      btn.style.position='relative';
+      btn.appendChild(circle);
+      requestAnimationFrame(()=> circle.style.transform='scale(1)');
+      setTimeout(()=>{ circle.style.opacity='0'; },220);
+      setTimeout(()=> circle.remove(),420);
+    }
+
+    document.querySelectorAll('.btn').forEach(b=> b.addEventListener('pointerdown', rippleEffect));
+
+    // Ensure focus-visible for keyboard users
+    (function(){
+      function handleFirstTab(e){ if(e.key==='Tab'){ document.body.classList.add('show-focus'); window.removeEventListener('keydown', handleFirstTab); }}
+      window.addEventListener('keydown', handleFirstTab);
+    })();
+  </script>
+</body>
+</html>
